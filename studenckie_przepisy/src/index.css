@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@700&family=DM+Sans:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-display: 'Lora', Georgia, serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+
+  --color-bg:           #F5F0E8;
+  --color-surface:      #EDE8DF;
+  --color-surface2:     #E2DDD3;
+  --color-primary:      #C0392B;
+  --color-primary-h:    #A93226;
+  --color-accent:       #6DBF8A;
+  --color-accent-text:  #1A5C31;
+  --color-text:         #1C1A17;
+  --color-muted:        #7A7060;
+  --color-shell:        #D6CFC4;
+  --color-nav-active:   #6DBF8A;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
