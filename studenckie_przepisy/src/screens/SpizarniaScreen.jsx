@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { IconPlus, IconX, IconFilter, IconCoin, IconLeaf } from "../icons";
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
@@ -67,6 +68,7 @@ export default function SpizarniaScreen() {
   const [activeTime,  setActiveTime]  = useState("<30 min");
   const [activeCost,  setActiveCost]  = useState(null);
   const inputRef = useRef(null);
+  const navigate = useNavigate();
 
   const addIngredient = (value) => {
     const trimmed = value.trim().toLowerCase();
@@ -92,8 +94,7 @@ export default function SpizarniaScreen() {
 
   const handleSearch = () => {
     if (ingredients.length === 0) return;
-    // TODO: navigate('/wyniki', { state: { ingredients, activeTime, activeCost } })
-    console.log("Szukaj:", { ingredients, activeTime, activeCost });
+    navigate('/wyniki', { state: { ingredients, activeTime, activeCost } });
   };
 
   return (
