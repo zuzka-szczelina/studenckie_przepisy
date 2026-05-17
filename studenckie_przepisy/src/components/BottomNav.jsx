@@ -2,7 +2,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { IconCompass, IconFridge, IconBookmark, IconUser } from "../icons";
 
 const NAV_ITEMS = [
-  { id: "discover", label: "Odkrywaj",  path: "/odkrywaj",  icon: <IconCompass />  },
+  { id: "discover", label: "Odkrywaj",  path: "/wyniki",  icon: <IconCompass />  },
   { id: "pantry",   label: "Spiżarnia", path: "/spizarnia", icon: <IconFridge />   },
   { id: "saved",    label: "Zapisane",  path: "/zapisane",  icon: <IconBookmark /> },
   { id: "profile",  label: "Profil",    path: "/profil",    icon: <IconUser />     },
