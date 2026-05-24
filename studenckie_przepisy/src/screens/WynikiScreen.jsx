@@ -42,7 +42,6 @@ function MatchBadge({ matched, total, hasAll }) {
 }
 
 function RecipeCard({ recipe, pantryIngredients }) {
-  const navigate = useNavigate();
   const match = getIngredientMatch(recipe, pantryIngredients);
 
   return (

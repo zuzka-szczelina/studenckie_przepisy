@@ -1,9 +1,10 @@
 import { IconMenu, IconSearch } from "../icons";
 
-export default function TopBar() {
+export default function TopBar({ onMenuClick }) {
   return (
     <header className="sticky top-0 z-10 flex items-center justify-between px-5 py-3.5 bg-bg">
       <button
+        onClick={onMenuClick}
         className="flex items-center justify-center w-10 h-10 rounded-[10px] text-text hover:bg-surface active:bg-surface2 transition-colors"
         aria-label="Menu"
       >
