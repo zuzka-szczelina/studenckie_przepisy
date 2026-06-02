@@ -59,3 +59,38 @@ export const IconLeaf = () => (
     <path d="M12 22c0-6-4-10-9-11 0 5 3 9 7 10.5M12 22V12M12 12C12 6 17 2 22 2c0 5-3 9-7 10" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
+
+// ─── NOWE IKONY ───────────────────────────────────────────────────────────────
+
+export const IconArrowLeft = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+    <path d="M19 12H5M5 12l7 7M5 12l7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+export const IconHeart = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+    <path d="M12 21C12 21 3 14.5 3 8.5A5 5 0 0112 5.5 5 5 0 0121 8.5C21 14.5 12 21 12 21z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+  </svg>
+);
+export const IconHeartFilled = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+    <path d="M12 21C12 21 3 14.5 3 8.5A5 5 0 0112 5.5 5 5 0 0121 8.5C21 14.5 12 21 12 21z" stroke="currentColor" strokeWidth="1.8" fill="currentColor" strokeLinejoin="round" />
+  </svg>
+);
+export const IconClock = ({ size = 15 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.8" />
+    <path d="M12 7v5l3 3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+export const IconRefresh = ({ size = 11 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <path d="M4 12a8 8 0 018-8 8 8 0 016.93 4M20 12a8 8 0 01-8 8 8 8 0 01-6.93-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <path d="M20 4v4h-4M4 20v-4h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+export const IconPlay = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+    <path d="M6 4l14 8-14 8V4z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+  </svg>
+);

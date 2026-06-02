@@ -41,15 +41,12 @@ function MatchBadge({ matched, total, hasAll }) {
   );
 }
 
-function RecipeCard({ recipe, pantryIngredients }) {
+function RecipeCard({ recipe, pantryIngredients, navigate }) {
   const match = getIngredientMatch(recipe, pantryIngredients);
 
   return (
     <article
-      onClick={() => {
-        // TODO: navigate(`/przepis/${recipe.id}`)
-        console.log("Otwórz przepis:", recipe.id);
-      }}
+      onClick={() => navigate(`/przepis/${recipe.id}`)}
       className="flex items-center gap-4 bg-surface rounded-2xl p-3.5 shadow-sm cursor-pointer hover:bg-surface2 active:scale-[0.99] transition-all"
     >
       {/* Thumbnail */}
@@ -185,6 +182,7 @@ export default function WynikiScreen() {
               key={recipe.id}
               recipe={recipe}
               pantryIngredients={ingredients}
+              navigate={navigate}
             />
           ))}
         </section>

@@ -4,6 +4,8 @@ import SpizarniaScreen from "./screens/SpizarniaScreen";
 import WynikiScreen from "./screens/WynikiScreen";
 import ProfileScreen from "./screens/ProfileScreen.tsx";
 import PlaceholderScreen from "./screens/PlaceholderScreen";
+import RecipeDetailScreen from "./screens/RecipeDetailScreen";
+import CookingModeScreen from "./screens/CookingModeScreen";
 // import OdkrywajScreen from "./screens/OdkrywajScreen";  // TODO
 // import ZapisaneScreen from "./screens/ZapisaneScreen";  // TODO
 
@@ -16,6 +18,7 @@ export default function App() {
           <Route path="/spizarnia"  element={<SpizarniaScreen />} />
           <Route path="/wyniki"     element={<WynikiScreen />} />
           <Route path="/profil"   element={<ProfileScreen />}   />
+          <Route path="/przepis/:id" element={<RecipeDetailScreen />} />  
           <Route
             path="/zapisane"
             element={
@@ -37,6 +40,7 @@ export default function App() {
           {/* <Route path="/odkrywaj" element={<OdkrywajScreen />} /> */}
           {/* <Route path="/zapisane" element={<ZapisaneScreen />} /> */}
         </Route>
+        <Route path="/przepis/:id/gotowanie" element={<CookingModeScreen />} />
       </Routes>
     </BrowserRouter>
   );
