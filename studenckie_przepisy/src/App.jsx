@@ -6,14 +6,24 @@ import ProfileScreen from "./screens/ProfileScreen.tsx";
 import PlaceholderScreen from "./screens/PlaceholderScreen";
 import RecipeDetailScreen from "./screens/RecipeDetailScreen";
 import CookingModeScreen from "./screens/CookingModeScreen";
+import { useAuth } from "./context/AuthContext";
+import LoginScreen from "./screens/LoginScreen";
 // import OdkrywajScreen from "./screens/OdkrywajScreen";  // TODO
 // import ZapisaneScreen from "./screens/ZapisaneScreen";  // TODO
+
+function PrivateRoute({ children }) {
+  const { user, loading } = useAuth();
+  if (loading) return null; // czekaj na Firebase zanim cokolwiek wyrenderujesz
+  return user ? children : <Navigate to="/login" replace />;
+}
+
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<AppLayout />}>
+        <Route path="/login" element={<LoginScreen />} />
+        <Route element={<PrivateRoute><AppLayout /></PrivateRoute>}>
           <Route path="/"           element={<Navigate to="/spizarnia" replace />} />
           <Route path="/spizarnia"  element={<SpizarniaScreen />} />
           <Route path="/wyniki"     element={<WynikiScreen />} />
