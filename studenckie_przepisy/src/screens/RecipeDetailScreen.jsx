@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { RECIPES } from "../mockData";
+import { RECIPES, SUBSTITUTES } from "../mockData";
 import {
   IconArrowLeft,
   IconHeart,
@@ -10,6 +10,7 @@ import {
   IconLeaf,
   IconRefresh,
   IconPlay,
+  IconX,
 } from "../icons";
 
 // ─── HELPERS ──────────────────────────────────────────────────────────────────
@@ -58,7 +59,7 @@ function StepItem({ number, text }) {
   );
 }
 
-function IngredientRow({ name, amount, unit, hasSubstitute }) {
+function IngredientRow({ name, amount, unit, hasSubstitute, onSubstitute }) {
   return (
     <div className="flex items-center justify-between py-2.5 border-b border-shell last:border-b-0">
       <span className="text-[0.9rem] text-text">{name}</span>
@@ -67,9 +68,75 @@ function IngredientRow({ name, amount, unit, hasSubstitute }) {
           {amount !== null ? `${amount}${unit}` : unit}
         </span>
         {hasSubstitute && (
-          <button className="text-[0.68rem] font-semibold text-primary flex items-center gap-1">
+          <button
+            onClick={onSubstitute}
+            className="text-[0.68rem] font-semibold text-primary flex items-center gap-1"
+          >
             <IconRefresh /> Szukaj zamiennika
           </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── MODAL ZAMIENNIKÓW ────────────────────────────────────────────────────────
+
+function SubstituteModal({ ingredientName, onClose }) {
+  const substitutes = SUBSTITUTES[ingredientName] ?? [];
+
+  return (
+    // Backdrop
+    <div
+      className="fixed inset-0 z-20 bg-black/40 flex items-end"
+      onClick={onClose}
+    >
+      {/* Panel — stopujemy propagację, żeby klik w środku nie zamykał */}
+      <div
+        className="w-full bg-bg rounded-t-3xl px-5 pt-5 pb-[max(24px,env(safe-area-inset-bottom))] shadow-xl"
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Nagłówek */}
+        <div className="flex items-start justify-between mb-4">
+          <div>
+            <p className="text-[0.72rem] text-muted font-medium uppercase tracking-wide mb-0.5">
+              Zamienniki dla
+            </p>
+            <h3 className="font-display text-[1.15rem] text-text leading-tight">
+              {ingredientName}
+            </h3>
+          </div>
+          <button
+            onClick={onClose}
+            className="w-8 h-8 bg-surface2 rounded-full flex items-center justify-center text-muted hover:text-text transition-colors flex-shrink-0"
+            aria-label="Zamknij"
+          >
+            <IconX />
+          </button>
+        </div>
+
+        {/* Lista */}
+        {substitutes.length === 0 ? (
+          <p className="text-sm text-muted py-4 text-center">
+            Brak zamienników w bazie.
+          </p>
+        ) : (
+          <div className="flex flex-col gap-2.5">
+            {substitutes.map((sub, i) => (
+              <div
+                key={i}
+                className="flex items-start gap-3 bg-surface rounded-2xl px-4 py-3"
+              >
+                <span className="w-6 h-6 rounded-full bg-accent/20 text-accent-text text-[0.72rem] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
+                  {i + 1}
+                </span>
+                <div>
+                  <p className="text-[0.9rem] font-semibold text-text">{sub.name}</p>
+                  <p className="text-[0.76rem] text-muted mt-0.5">{sub.note}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         )}
       </div>
     </div>
@@ -85,6 +152,7 @@ export default function RecipeDetailScreen() {
   const recipe = RECIPES.find((r) => r.id === Number(id));
   const [servings, setServings] = useState(2);
   const [isFavourite, setIsFavourite] = useState(false);
+  const [substituteFor, setSubstituteFor] = useState(null); // nazwa składnika lub null
 
   if (!recipe) {
     return (
@@ -102,7 +170,7 @@ export default function RecipeDetailScreen() {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="relative flex flex-col">
 
       {/* Hero */}
       <div className="relative bg-surface h-[200px] flex items-center justify-center text-[80px] select-none">
@@ -111,7 +179,6 @@ export default function RecipeDetailScreen() {
         ) : (
           <span>🍽️</span>
         )}
-
         <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-4 pt-4">
           <button
             onClick={() => navigate(-1)}
@@ -133,7 +200,6 @@ export default function RecipeDetailScreen() {
       {/* Content */}
       <div className="flex flex-col gap-7 px-5 pt-5 pb-28">
 
-        {/* Title + meta */}
         <section className="flex flex-col gap-3">
           <h1 className="font-display text-[1.7rem] leading-tight text-text">
             {recipe.title}
@@ -145,7 +211,6 @@ export default function RecipeDetailScreen() {
           </div>
         </section>
 
-        {/* Ingredients */}
         <section>
           <div className="flex items-center justify-between mb-3">
             <h2 className="font-display text-[1.1rem] text-text">Składniki</h2>
@@ -184,13 +249,13 @@ export default function RecipeDetailScreen() {
                   amount={scaled}
                   unit={ing.unit}
                   hasSubstitute={ing.hasSubstitute}
+                  onSubstitute={() => setSubstituteFor(ing.name)}
                 />
               );
             })}
           </div>
         </section>
 
-        {/* Steps */}
         <section>
           <h2 className="font-display text-[1.1rem] text-text mb-4">Przygotowanie</h2>
           <div className="flex flex-col gap-4">
@@ -211,6 +276,14 @@ export default function RecipeDetailScreen() {
           <IconPlay /> Zacznij Gotować
         </button>
       </div>
+
+      {/* Modal zamienników */}
+      {substituteFor && (
+        <SubstituteModal
+          ingredientName={substituteFor}
+          onClose={() => setSubstituteFor(null)}
+        />
+      )}
 
     </div>
   );

@@ -1,5 +1,8 @@
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { filterRecipes, getIngredientMatch } from "../mockData";
+
+const PAGE_SIZE = 4;
 
 // ─── HELPERS ──────────────────────────────────────────────────────────────────
 
@@ -49,7 +52,6 @@ function RecipeCard({ recipe, pantryIngredients, navigate }) {
       onClick={() => navigate(`/przepis/${recipe.id}`)}
       className="flex items-center gap-4 bg-surface rounded-2xl p-3.5 shadow-sm cursor-pointer hover:bg-surface2 active:scale-[0.99] transition-all"
     >
-      {/* Thumbnail */}
       <div className="w-[72px] h-[72px] rounded-xl bg-surface2 flex-shrink-0 overflow-hidden relative">
         {recipe.image ? (
           <img src={recipe.image} alt={recipe.title} className="w-full h-full object-cover" />
@@ -58,11 +60,9 @@ function RecipeCard({ recipe, pantryIngredients, navigate }) {
             🍽️
           </div>
         )}
-        {/* Favourite button */}
         <button
           onClick={e => {
             e.stopPropagation();
-            // TODO: toggleFavourite(recipe.id)
             console.log("Ulubione:", recipe.id);
           }}
           aria-label="Dodaj do ulubionych"
@@ -72,13 +72,10 @@ function RecipeCard({ recipe, pantryIngredients, navigate }) {
         </button>
       </div>
 
-      {/* Info */}
       <div className="flex flex-col gap-1.5 flex-1 min-w-0">
         <h3 className="font-display text-[0.95rem] text-text leading-tight line-clamp-2">
           {recipe.title}
         </h3>
-
-        {/* Price + Time */}
         <div className="flex items-center gap-3 text-[0.75rem] text-muted">
           <span className="flex items-center gap-1">
             <span>💰</span> {formatPrice(recipe.priceEstimate)}
@@ -87,11 +84,36 @@ function RecipeCard({ recipe, pantryIngredients, navigate }) {
             <span>⏱</span> {formatTime(recipe.timeMinutes)}
           </span>
         </div>
-
-        {/* Match badge */}
         <MatchBadge {...match} />
       </div>
     </article>
+  );
+}
+
+function Pagination({ page, totalPages, onPrev, onNext }) {
+  if (totalPages <= 1) return null;
+  return (
+    <div className="flex items-center justify-center gap-4 pt-2 pb-4">
+      <button
+        onClick={onPrev}
+        disabled={page === 1}
+        className="w-9 h-9 rounded-full bg-surface flex items-center justify-center text-muted disabled:opacity-30 hover:bg-surface2 transition-colors"
+        aria-label="Poprzednia strona"
+      >
+        ‹
+      </button>
+      <span className="text-sm text-muted font-medium">
+        {page} / {totalPages}
+      </span>
+      <button
+        onClick={onNext}
+        disabled={page === totalPages}
+        className="w-9 h-9 rounded-full bg-surface flex items-center justify-center text-muted disabled:opacity-30 hover:bg-surface2 transition-colors"
+        aria-label="Następna strona"
+      >
+        ›
+      </button>
+    </div>
   );
 }
 
@@ -118,37 +140,36 @@ function EmptyState({ onBack }) {
 export default function WynikiScreen() {
   const navigate = useNavigate();
   const { state } = useLocation();
+  const [page, setPage] = useState(1);
 
-  // Odczytaj co przekazała Spiżarnia
   const ingredients = state?.ingredients ?? [];
   const activeTime  = state?.activeTime  ?? null;
   const activeCost  = state?.activeCost  ?? null;
 
-  const results = filterRecipes({ ingredients, timeFilter: activeTime, costFilter: activeCost });
+  const results    = filterRecipes({ ingredients, timeFilter: activeTime, costFilter: activeCost });
+  const totalPages = Math.ceil(results.length / PAGE_SIZE);
+  const pageItems  = results.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
-  // Buduj etykiety aktywnych filtrów
   const activeFilters = [
     ...(activeTime ? [activeTime] : []),
     ...(activeCost === "cheap"  ? ["Tanie"]   : []),
     ...(activeCost === "medium" ? ["Średnie"] : []),
   ];
 
+  const handlePrev = () => { setPage(p => Math.max(1, p - 1)); window.scrollTo?.(0, 0); };
+  const handleNext = () => { setPage(p => Math.min(totalPages, p + 1)); window.scrollTo?.(0, 0); };
+
   return (
     <div className="flex flex-col gap-5 px-5 pt-3 pb-5">
 
-      {/* Search context bar */}
       <section className="flex flex-col gap-3">
-        {/* Search summary pill */}
         <div className="flex items-center justify-between gap-3 bg-surface rounded-2xl px-4 py-3 shadow-sm">
           <div className="flex items-center gap-2 min-w-0">
             <span className="text-muted text-sm flex-shrink-0">🔍</span>
             <span className="text-[0.88rem] text-muted truncate">
-              {ingredients.length > 0
-                ? ingredients.join(", ")
-                : "Wszystkie przepisy"}
+              {ingredients.length > 0 ? ingredients.join(", ") : "Wszystkie przepisy"}
             </span>
           </div>
-          {/* Filter icon — TODO: otworzyć panel filtrów */}
           <button
             className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-xl bg-surface2 text-muted hover:text-primary transition-colors"
             aria-label="Filtry"
@@ -157,7 +178,6 @@ export default function WynikiScreen() {
           </button>
         </div>
 
-        {/* Active filter badges */}
         {activeFilters.length > 0 && (
           <div className="flex gap-2 flex-wrap">
             {activeFilters.map(f => (
@@ -167,17 +187,15 @@ export default function WynikiScreen() {
         )}
       </section>
 
-      {/* Results count */}
       <h2 className="font-display text-[1.6rem] text-text leading-tight">
         Znaleziono ({results.length})
       </h2>
 
-      {/* Recipe list */}
       {results.length === 0 ? (
         <EmptyState onBack={() => navigate("/spizarnia")} />
       ) : (
-        <section className="flex flex-col gap-3 pb-6">
-          {results.map(recipe => (
+        <section className="flex flex-col gap-3">
+          {pageItems.map(recipe => (
             <RecipeCard
               key={recipe.id}
               recipe={recipe}
@@ -185,6 +203,12 @@ export default function WynikiScreen() {
               navigate={navigate}
             />
           ))}
+          <Pagination
+            page={page}
+            totalPages={totalPages}
+            onPrev={handlePrev}
+            onNext={handleNext}
+          />
         </section>
       )}
 

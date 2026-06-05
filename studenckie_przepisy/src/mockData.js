@@ -189,6 +189,80 @@ export const RECIPES = [
   },
 ];
 
+
+export const SUBSTITUTES = {
+  "Makaron spaghetti":    [
+    { name: "Makaron penne",       note: "podobny czas gotowania" },
+    { name: "Makaron ryżowy",      note: "bezglutenowy" },
+    { name: "Cukinia w paski",     note: "opcja niskokaloryczna" },
+  ],
+  "Passata pomidorowa":   [
+    { name: "Pomidory z puszki",   note: "rozgniecione widelcem" },
+    { name: "Świeże pomidory",     note: "ok. 4 szt., sparzone ze skórką" },
+    { name: "Koncentrat pomidorowy", note: "użyj ½ ilości + dolej wodę" },
+  ],
+  "Oliwa z oliwek":       [
+    { name: "Olej rzepakowy",      note: "neutralny smak" },
+    { name: "Olej kokosowy",       note: "lekko słodkawy aromat" },
+    { name: "Masło klarowane",     note: "bardziej maślany smak" },
+  ],
+  "Chleb tostowy":        [
+    { name: "Bagietka",            note: "pokrojona ukośnie i opieczona" },
+    { name: "Chleb żytni",        note: "bardziej sycący" },
+    { name: "Wrapy/tortilla",      note: "opcja bezglutenowa dostępna" },
+  ],
+  "Cebula czerwona":      [
+    { name: "Cebula biała",        note: "łagodniejszy smak po podsmażeniu" },
+    { name: "Szczypiorek",         note: "na surowo, drobno pokrojony" },
+    { name: "Szalotka",            note: "delikatniejszy aromat" },
+  ],
+  "Pierś z kurczaka":     [
+    { name: "Udko z kurczaka",     note: "bardziej soczyste" },
+    { name: "Indyk",               note: "podobna wartość odżywcza" },
+    { name: "Tofu twarde",         note: "opcja wegańska — marynuj 30 min" },
+  ],
+  "Ryż biały":            [
+    { name: "Ryż brązowy",         note: "zdrowszy, gotuj 35–40 min" },
+    { name: "Kasza jaglana",       note: "bezglutenowa, gotuj 20 min" },
+    { name: "Kasza kuskus",        note: "najszybsza — zalej wrzątkiem" },
+  ],
+  "Papryka słodka":       [
+    { name: "Cukinia",             note: "podobna tekstura po usmażeniu" },
+    { name: "Marchew",             note: "pokrojona w cienkie słupki" },
+    { name: "Papryka ostra",       note: "ostrzejsza wersja — użyj mniej" },
+  ],
+  "Masło":                [
+    { name: "Oliwa z oliwek",      note: "zdrowszy tłuszcz" },
+    { name: "Margaryna roślinna",  note: "opcja wegańska" },
+    { name: "Olej kokosowy",       note: "nadaje delikatny aromat" },
+  ],
+  "Sałata lodowa":        [
+    { name: "Rukola",              note: "bardziej wyrazisty, lekko gorzki smak" },
+    { name: "Szpinak baby",        note: "delikatniejszy, bogatszy w żelazo" },
+    { name: "Kapusta pekińska",    note: "chrupiąca, tańsza alternatywa" },
+  ],
+  "Tortilla pszenna":     [
+    { name: "Tortilla kukurydziana", note: "bezglutenowa" },
+    { name: "Liście sałaty",       note: "opcja niskokaloryczna" },
+    { name: "Naan",                note: "grubszy, bardziej sycący" },
+  ],
+  "Jogurt naturalny":     [
+    { name: "Śmietana 18%",        note: "bogatszy smak" },
+    { name: "Jogurt grecki",       note: "gęstszy, więcej białka" },
+    { name: "Majonez",             note: "kaloryczniejszy, ale popularny w wrapach" },
+  ],
+  "Sos sojowy":           [
+    { name: "Tamari",              note: "bezglutenowy zamiennik 1:1" },
+    { name: "Sos rybny",           note: "użyj ½ ilości — bardziej intensywny" },
+    { name: "Sos Worcestershire",  note: "dodaj odrobinę soli" },
+  ],
+  "Olej sezamowy":        [
+    { name: "Oliwa z oliwek",      note: "neutralniejszy smak" },
+    { name: "Masło orzechowe (1 łyżeczka)", note: "orzechowy aromat" },
+    { name: "Olej arachidowy",     note: "podobny orzechowy akcent" },
+  ],
+};
+
 // ─── HELPERS ──────────────────────────────────────────────────────────────────
 
 export function getIngredientMatch(recipe, pantryIngredients) {

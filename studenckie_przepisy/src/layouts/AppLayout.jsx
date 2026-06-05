@@ -12,7 +12,7 @@ export default function AppLayout() {
 
   return (
     <div className="flex justify-center items-start min-h-svh bg-shell font-body">
-      <div className="relative flex flex-col w-full max-w-[390px] min-h-svh bg-bg overflow-hidden">
+      <div className="relative flex flex-col w-full max-w-[390px] h-svh bg-bg overflow-hidden">
         <TopBar onMenuClick={openMenu} />
 
         {/* Active screen renders here */}
