@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { filterRecipes } from "../mockData";
+import useSavedRecipies from "../hooks/useSavedRecipies";
 import RecipeCard from "../components/RecipeCard";
 import Pagination from "../components/Pagination";
 import EmptyState from "../components/EmptyState";
@@ -11,16 +12,18 @@ const PAGE_SIZE = 4;
 
 // ─── SCREEN ───────────────────────────────────────────────────────────────────
 
-export default function WynikiScreen() {
+export default function SavedRecipiesScreen() {
   const navigate = useNavigate();
-  const { state } = useLocation();
   const [page, setPage] = useState(1);
+  const { savedRecipies } = useSavedRecipies();
 
-  const ingredients = state?.ingredients ?? [];
-  const activeTime  = state?.activeTime  ?? null;
-  const activeCost  = state?.activeCost  ?? null;
+  const ingredients = [];
+  const activeTime  = null;
+  const activeCost  = null;
+//   todo: filtering the ingredients, time and cost 
 
-  const results    = filterRecipes({ ingredients, timeFilter: activeTime, costFilter: activeCost });
+
+  const results    = filterRecipes({ ingredients, timeFilter: activeTime, costFilter: activeCost }).filter(recipe => savedRecipies.includes(recipe.id));
   const totalPages = Math.ceil(results.length / PAGE_SIZE);
   const pageItems  = results.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
@@ -36,20 +39,20 @@ export default function WynikiScreen() {
   return (
     <div className="flex flex-col gap-5 px-5 pt-3 pb-5">
 
-    <SearchAndFilters 
-      ingredients={ingredients} 
-      activeFilters={activeFilters} 
-      defaultSearchText="Wszystkie przepisy"
-    />
+      <SearchAndFilters 
+        ingredients={ingredients} 
+        activeFilters={activeFilters} 
+        defaultSearchText="Wszystkie zapisane"
+      />
 
       <h2 className="font-display text-[1.6rem] text-text leading-tight">
-        Znaleziono ({results.length})
+        Zapisane przepisy ({results.length})
       </h2>
 
       {results.length === 0 ? (
         <EmptyState 
-          onBack={() => navigate("/spizarnia")} 
-          description="Nie znaleźliśmy nic pasującego do Twoich składników i filtrów. Spróbuj zmienić filtry."
+            onBack={() => navigate("/spizarnia")} 
+            description="Nie nie masz zapisanych przepisów."
         />
       ) : (
         <section className="flex flex-col gap-3">

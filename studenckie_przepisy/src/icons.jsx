@@ -37,9 +37,14 @@ export const IconFridge = () => (
     <path d="M9 6v2M9 14v4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
   </svg>
 );
-export const IconBookmark = () => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+export const IconBookmark = ({ className }) => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" className={className}>
     <path d="M6 3h12a1 1 0 011 1v16l-7-4-7 4V4a1 1 0 011-1z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+  </svg>
+);
+export const IconBookmarkFilled = ({ className }) => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" className={className}>
+    <path d="M6 3h12a1 1 0 011 1v16l-7-4-7 4V4a1 1 0 011-1z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" fill="currentColor"/>
   </svg>
 );
 export const IconUser = () => (
