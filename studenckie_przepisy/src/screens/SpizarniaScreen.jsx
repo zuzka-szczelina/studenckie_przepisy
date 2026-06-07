@@ -12,7 +12,7 @@ const COST_FILTERS = [
 
 // ─── SUB-COMPONENTS ───────────────────────────────────────────────────────────
 
-function IngredientTag({ label, onRemove }) {
+export function IngredientTag({ label, onRemove }) {
   return (
     <span className="inline-flex items-center gap-1.5 bg-accent text-accent-text text-[0.8rem] font-semibold pl-3 pr-2 py-1 rounded-full select-none">
       {label}
@@ -69,6 +69,7 @@ export default function SpizarniaScreen() {
   const [activeCost,  setActiveCost]  = useState(null);
   const inputRef = useRef(null);
   const navigate = useNavigate();
+  const canSearch = ingredients.length > 0 || activeTime !== null || activeCost !== null;
 
   const addIngredient = (value) => {
     const trimmed = value.trim().toLowerCase();
@@ -93,7 +94,7 @@ export default function SpizarniaScreen() {
   };
 
   const handleSearch = () => {
-    if (ingredients.length === 0) return;
+    if (!canSearch) return;
     navigate('/wyniki', { state: { ingredients, activeTime, activeCost } });
   };
 
@@ -150,23 +151,10 @@ export default function SpizarniaScreen() {
             </div>
           )}
         </div>
-
-        <button
-          onClick={handleSearch}
-          disabled={ingredients.length === 0}
-          className={[
-            "w-full py-4 rounded-full text-[1rem] font-semibold tracking-wide transition-all",
-            ingredients.length > 0
-              ? "bg-primary text-white shadow-[0_4px_18px_rgba(192,57,43,0.35)] hover:bg-primary-h hover:shadow-[0_6px_22px_rgba(192,57,43,0.45)] active:scale-[0.98]"
-              : "bg-surface2 text-muted cursor-not-allowed",
-          ].join(" ")}
-        >
-          Szukaj przepisów
-        </button>
       </section>
 
       {/* Quick Filters */}
-      <section className="flex flex-col gap-4 pb-6">
+      <section className="flex flex-col gap-4 pb-2">
         <h2 className="flex items-center gap-2 font-display text-[1.05rem] text-text">
           <span className="flex text-primary"><IconFilter /></span>
           Szybkie filtry
@@ -204,6 +192,19 @@ export default function SpizarniaScreen() {
           </div>
         </div>
       </section>
+
+      <button
+          onClick={handleSearch}
+          disabled={!canSearch}
+          className={[
+            "w-full py-4 rounded-full text-[1rem] font-semibold tracking-wide transition-all",
+            canSearch
+              ? "bg-primary text-white shadow-[0_4px_18px_rgba(192,57,43,0.35)] hover:bg-primary-h hover:shadow-[0_6px_22px_rgba(192,57,43,0.45)] active:scale-[0.98]"
+              : "bg-surface2 text-muted cursor-not-allowed",
+          ].join(" ")}
+        >
+          Szukaj przepisów
+        </button>
 
     </div>
   );

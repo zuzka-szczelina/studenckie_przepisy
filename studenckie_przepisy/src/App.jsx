@@ -8,6 +8,7 @@ import RecipeDetailScreen from "./screens/RecipeDetailScreen";
 import CookingModeScreen from "./screens/CookingModeScreen";
 import { useAuth } from "./context/AuthContext";
 import LoginScreen from "./screens/LoginScreen";
+import SavedRecipiesScreen from "./screens/SavedRecipiesScreen.jsx";
 // import OdkrywajScreen from "./screens/OdkrywajScreen";  // TODO
 // import ZapisaneScreen from "./screens/ZapisaneScreen";  // TODO
 
@@ -29,7 +30,7 @@ export default function App() {
           <Route path="/wyniki"     element={<WynikiScreen />} />
           <Route path="/profil"   element={<ProfileScreen />}   />
           <Route path="/przepis/:id" element={<RecipeDetailScreen />} />  
-          <Route
+          {/* <Route
             path="/zapisane"
             element={
               <PlaceholderScreen
@@ -37,7 +38,8 @@ export default function App() {
                 description="Tutaj pojawią się przepisy, które dodasz do zapisanych."
               />
             }
-          />
+          /> */}
+          <Route path="/zapisane" element={<SavedRecipiesScreen />} />
           <Route
             path="/ustawienia"
             element={

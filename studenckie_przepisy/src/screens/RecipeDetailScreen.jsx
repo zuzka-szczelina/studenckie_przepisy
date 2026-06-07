@@ -3,15 +3,16 @@ import { useParams, useNavigate } from "react-router-dom";
 import { RECIPES, SUBSTITUTES } from "../mockData";
 import {
   IconArrowLeft,
-  IconHeart,
-  IconHeartFilled,
   IconClock,
   IconCoin,
   IconLeaf,
   IconRefresh,
   IconPlay,
   IconX,
+  IconBookmark,
+  IconBookmarkFilled
 } from "../icons";
+import useSavedRecipies from "../hooks/useSavedRecipies";
 
 // ─── HELPERS ──────────────────────────────────────────────────────────────────
 
@@ -151,7 +152,8 @@ export default function RecipeDetailScreen() {
 
   const recipe = RECIPES.find((r) => r.id === Number(id));
   const [servings, setServings] = useState(2);
-  const [isFavourite, setIsFavourite] = useState(false);
+  // const [isFavourite, setIsFavourite] = useState(false);
+  const { isSavedRecipe, toggleIsSavedRecipe } = useSavedRecipies();
   const [substituteFor, setSubstituteFor] = useState(null); // nazwa składnika lub null
 
   if (!recipe) {
@@ -188,11 +190,11 @@ export default function RecipeDetailScreen() {
             <IconArrowLeft />
           </button>
           <button
-            onClick={() => setIsFavourite((v) => !v)}
-            className={`w-9 h-9 bg-white/85 rounded-[10px] flex items-center justify-center transition-colors ${isFavourite ? "text-primary" : "text-muted"}`}
-            aria-label={isFavourite ? "Usuń z ulubionych" : "Dodaj do ulubionych"}
+            onClick={() => toggleIsSavedRecipe(recipe.id)}
+            className={`w-9 h-9 bg-white/85 rounded-[10px] flex items-center justify-center transition-colors ${isSavedRecipe(recipe.id) ? "text-primary" : "text-muted"}`}
+            aria-label={isSavedRecipe ? "Usuń z ulubionych" : "Dodaj do ulubionych"}
           >
-            {isFavourite ? <IconHeartFilled /> : <IconHeart />}
+            {isSavedRecipe(recipe.id) ? <IconBookmarkFilled /> : <IconBookmark />}
           </button>
         </div>
       </div>

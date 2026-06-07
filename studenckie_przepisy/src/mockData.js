@@ -2,11 +2,20 @@
 // Zastąp to później wywołaniem API.
 // Struktura celowo odzwierciedla to co API powinno zwrócić.
 
+import jajecznicaZCebula    from "./assets/recipe_images/jajecznica-z-cebula.png";
+import kurczakZRyzem        from "./assets/recipe_images/kurczak-z-ryzem.jpg";
+import ryzZWarzywami        from "./assets/recipe_images/ryz-z-warzywami.png";
+import salatkaStudencka     from "./assets/recipe_images/salatka-studencka.jpg";
+import spaghettiNapoli      from "./assets/recipe_images/spaghetti_napoli.jpg";
+import tostyZAwokado        from "./assets/recipe_images/tosty_z_awokado.jpg";
+import wrapZKurczakiem      from "./assets/recipe_images/wrap-z-kurczakiem.png";
+import zupaPomidorowa       from "./assets/recipe_images/zupa-pomidorowa.png";
+
 export const RECIPES = [
   {
     id: 1,
     title: "Szybkie Spaghetti Napoli",
-    image: null,
+    image: spaghettiNapoli,
     priceEstimate: 8,
     timeMinutes: 15,
     ingredients: ["makaron", "pomidory", "czosnek", "oliwa", "cebula"],
@@ -29,7 +38,7 @@ export const RECIPES = [
   {
     id: 2,
     title: "Tosty z Awokado i Jajkiem",
-    image: null,
+    image: tostyZAwokado,
     priceEstimate: 10,
     timeMinutes: 10,
     ingredients: ["chleb", "awokado", "jajka", "sól", "pieprz", "cebula"],
@@ -51,7 +60,7 @@ export const RECIPES = [
   {
     id: 3,
     title: "Kurczak z Ryżem i Cebulą",
-    image: null,
+    image: kurczakZRyzem,
     priceEstimate: 14,
     timeMinutes: 25,
     ingredients: ["kurczak", "ryż", "cebula", "czosnek", "papryka"],
@@ -76,7 +85,7 @@ export const RECIPES = [
   {
     id: 4,
     title: "Studencka Sałatka",
-    image: null,
+    image: salatkaStudencka,
     priceEstimate: 6,
     timeMinutes: 5,
     ingredients: ["sałata", "pomidory", "ogórek", "oliwa", "cebula"],
@@ -99,7 +108,7 @@ export const RECIPES = [
   {
     id: 5,
     title: "Jajecznica z Cebulą",
-    image: null,
+    image: jajecznicaZCebula,
     priceEstimate: 5,
     timeMinutes: 8,
     ingredients: ["jajka", "cebula", "masło", "sól", "pieprz"],
@@ -120,7 +129,7 @@ export const RECIPES = [
   {
     id: 6,
     title: "Zupa Pomidorowa z Ryżem",
-    image: null,
+    image: zupaPomidorowa,
     priceEstimate: 9,
     timeMinutes: 30,
     ingredients: ["pomidory", "ryż", "cebula", "czosnek", "bulion"],
@@ -144,7 +153,7 @@ export const RECIPES = [
   {
     id: 7,
     title: "Wrap z Kurczakiem",
-    image: null,
+    image: wrapZKurczakiem,
     priceEstimate: 13,
     timeMinutes: 20,
     ingredients: ["kurczak", "tortilla", "sałata", "pomidory", "jogurt"],
@@ -167,7 +176,7 @@ export const RECIPES = [
   {
     id: 8,
     title: "Ryż z Warzywami",
-    image: null,
+    image: ryzZWarzywami,
     priceEstimate: 7,
     timeMinutes: 20,
     ingredients: ["ryż", "papryka", "cebula", "marchew", "sos sojowy"],
