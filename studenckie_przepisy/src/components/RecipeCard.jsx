@@ -15,6 +15,7 @@ function formatTime(minutes) {
 
 function RecipeCard({ recipe, pantryIngredients, navigate }) {
   const match = getIngredientMatch(recipe, pantryIngredients);
+  const isIngredientsFilterUsed = pantryIngredients.length > 0;
   const { isSavedRecipe } = useSavedRecipies();
 
   return (
@@ -56,7 +57,7 @@ function RecipeCard({ recipe, pantryIngredients, navigate }) {
             <span>⏱</span> {formatTime(recipe.timeMinutes)}
           </span>
         </div>
-        <MatchBadge {...match} />
+        <MatchBadge {...match} isIngredientsFilterUsed={isIngredientsFilterUsed} />
       </div>
     </article>
   );

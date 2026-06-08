@@ -1,6 +1,10 @@
 import { Funnel, Search } from 'lucide-react'
 import { IconX } from '../icons';
+import { useState } from 'react';
 
+
+// -----------------------------------------------------------------------------------------
+// helpers
 
 export function IngredientTag({ label, onRemove }) {
   return (
@@ -36,25 +40,67 @@ function ActiveFilterBadge({ label, onRemove }) {
 }
 
 
-const SearchAndFilters = ({ ingredients, activeFilters, defaultSearchText }) => {
+
+
+
+// ---------------------------------------------------------------------------------
+// Export default
+const SearchAndFilters = ({ ingredients, activeFilters, defaultSearchText, allRecipies, setResults }) => {
+
+  const [recipeNameSearch, setRecipeNameSearch] = useState("");
+
+  const [filterResults, setFilterResults] = useState(allRecipies);
+  const [searchResults, setSearchResults] = useState(allRecipies);
+
+  const [areFiltersVisible, setAreFiltersVisible] = useState(false);
+
+
+  const handleSubmitSearch = (e) => {
+    e.preventDefault();
+
+    const searched = allRecipies.filter(recipe =>
+      recipe.title.toLowerCase().includes(recipeNameSearch.toLowerCase())
+    );
+    setSearchResults(searched)
+
+    const intersection = filterResults.filter(recipe =>
+      searched.some(r => r.id === recipe.id)
+    );
+    setResults(intersection);
+  }
+
   return (
-      <section className="flex flex-col gap-3">
+      <section className="relative flex flex-col gap-3">
         <div className="flex items-center justify-between gap-3 bg-surface rounded-2xl px-4 py-3 shadow-sm">
-          <div className="flex items-center gap-2 min-w-0">
-            <span className="text-muted text-sm flex-shrink-0">
+
+          <form onSubmit={handleSubmitSearch} className="flex items-center gap-2 min-w-0 text-[0.88rem] text-muted truncate">
+            <button type='submit' className="text-muted text-sm shrink-0">
               <Search className="w-4 h-4 text-text"/>
-            </span>
-            <span className="text-[0.88rem] text-muted truncate">
-              {defaultSearchText}
-            </span>
-          </div>
+            </button>
+            <input
+              name="recipeNameInput" 
+              defaultValue={defaultSearchText}
+              onChange={(e) => setRecipeNameSearch(e.target.value)}
+            />
+          </form>
+
           <button
             className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-xl bg-surface2 text-muted hover:text-primary transition-colors"
             aria-label="Filtry"
+            onClick={() => setAreFiltersVisible(true)}
           >
             <Funnel className="w-4 h-4"/>
           </button>
         </div>
+
+        {areFiltersVisible &&
+        <div className='absolute inset-x-0 z-40 bg-red-200'>
+          <p>Filters Will be available here</p>
+          <button onClick={() => setAreFiltersVisible(false)}>
+            <IconX/>
+          </button>
+        </div>
+        }
 
         {activeFilters.length > 0 && (
           <div className="flex gap-2 flex-wrap">

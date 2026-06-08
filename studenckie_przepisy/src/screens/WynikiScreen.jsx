@@ -20,7 +20,8 @@ export default function WynikiScreen() {
   const activeTime  = state?.activeTime  ?? null;
   const activeCost  = state?.activeCost  ?? null;
 
-  const results    = filterRecipes({ ingredients, timeFilter: activeTime, costFilter: activeCost });
+  const allRecipies = filterRecipes({ ingredients, timeFilter: activeTime, costFilter: activeCost });
+  const [results, setResults] = useState(allRecipies);
   const totalPages = Math.ceil(results.length / PAGE_SIZE);
   const pageItems  = results.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
@@ -40,6 +41,8 @@ export default function WynikiScreen() {
       ingredients={ingredients} 
       activeFilters={activeFilters} 
       defaultSearchText="Wszystkie przepisy"
+      allRecipies={allRecipies}
+      setResults={setResults}
     />
 
       <h2 className="font-display text-[1.6rem] text-text leading-tight">

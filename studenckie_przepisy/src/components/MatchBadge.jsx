@@ -1,4 +1,4 @@
-function MatchBadge({ matched, total, hasAll }) {
+function MatchBadge({ matched, total, hasAll, isIngredientsFilterUsed }) {
   if (hasAll) {
     return (
       <span className="inline-flex items-center gap-1 bg-accent/20 text-accent-text text-[0.72rem] font-semibold px-2.5 py-0.5 rounded-full">
@@ -8,7 +8,10 @@ function MatchBadge({ matched, total, hasAll }) {
   }
   return (
     <span className="inline-flex items-center gap-1 bg-surface2 text-muted text-[0.72rem] font-medium px-2.5 py-0.5 rounded-full">
-      Masz {matched}/{total} składników
+      {isIngredientsFilterUsed ? 
+        `Masz ${matched}/${total} składników` :
+        `Potrzebne ${total} składników`
+      }
     </span>
   );
 }
