@@ -3,12 +3,12 @@ import AppLayout from "./layouts/AppLayout";
 import SpizarniaScreen from "./screens/SpizarniaScreen";
 import WynikiScreen from "./screens/WynikiScreen";
 import ProfileScreen from "./screens/ProfileScreen.tsx";
-import PlaceholderScreen from "./screens/PlaceholderScreen";
 import RecipeDetailScreen from "./screens/RecipeDetailScreen";
 import CookingModeScreen from "./screens/CookingModeScreen";
-import { useAuth } from "./context/AuthContext";
+import useAuth from "./hooks/useAuth";
 import LoginScreen from "./screens/LoginScreen";
 import SavedRecipiesScreen from "./screens/SavedRecipiesScreen.jsx";
+import SettingsScreen from "./screens/SettingsScreen";
 // import OdkrywajScreen from "./screens/OdkrywajScreen";  // TODO
 // import ZapisaneScreen from "./screens/ZapisaneScreen";  // TODO
 
@@ -42,12 +42,7 @@ export default function App() {
           <Route path="/zapisane" element={<SavedRecipiesScreen />} />
           <Route
             path="/ustawienia"
-            element={
-              <PlaceholderScreen
-                title="Ustawienia"
-                description="Ustawienia konta i aplikacji będą dostępne w tym miejscu."
-              />
-            }
+            element={<SettingsScreen />}
           />
           {/* <Route path="/odkrywaj" element={<OdkrywajScreen />} /> */}
           {/* <Route path="/zapisane" element={<ZapisaneScreen />} /> */}

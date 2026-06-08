@@ -1,13 +1,8 @@
 // src/context/AuthContext.jsx
-import { createContext, useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../firebase";
-
-const AuthContext = createContext({
-  user: null,
-  loading: true,
-  logout: () => {},
-});
+import AuthContext from "./authContextValue";
 
 export function AuthProvider({ children }) {
   const [user, setUser]       = useState(undefined); // undefined = ładowanie, null = niezalogowany
@@ -29,5 +24,3 @@ export function AuthProvider({ children }) {
     </AuthContext.Provider>
   );
 }
-
-export const useAuth = () => useContext(AuthContext);

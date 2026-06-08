@@ -18,7 +18,7 @@ const MAIN_ITEMS = [
 ];
 
 const SETTINGS_ITEMS = [
-  { label: "Mój Profil", path: "/profil", icon: UserRound },
+  { label: "Mój profil", path: "/profil", icon: UserRound },
   { label: "Ustawienia", path: "/ustawienia", icon: Settings },
 ];
 
