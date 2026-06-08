@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { filterRecipes } from "../mockData";
+import { RECIPES } from "../mockData";
 import useSavedRecipies from "../hooks/useSavedRecipies";
 import RecipeCard from "../components/RecipeCard";
 import Pagination from "../components/Pagination";
@@ -23,7 +23,8 @@ export default function SavedRecipiesScreen() {
 //   todo: filtering the ingredients, time and cost 
 
 
-  const results    = filterRecipes({ ingredients, timeFilter: activeTime, costFilter: activeCost }).filter(recipe => savedRecipies.includes(recipe.id));
+  const allRecipies = RECIPES.filter(recipe => savedRecipies.includes(recipe.id))
+  const [results, setResults] = useState(allRecipies);
   const totalPages = Math.ceil(results.length / PAGE_SIZE);
   const pageItems  = results.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
@@ -38,11 +39,12 @@ export default function SavedRecipiesScreen() {
 
   return (
     <div className="flex flex-col gap-5 px-5 pt-3 pb-5">
-
       <SearchAndFilters 
         ingredients={ingredients} 
         activeFilters={activeFilters} 
         defaultSearchText="Wszystkie zapisane"
+        allRecipies={allRecipies}
+        setResults={setResults}
       />
 
       <h2 className="font-display text-[1.6rem] text-text leading-tight">
