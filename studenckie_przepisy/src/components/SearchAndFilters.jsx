@@ -49,9 +49,6 @@ const SearchAndFilters = ({ ingredients, activeFilters, defaultSearchText, allRe
 
   const [recipeNameSearch, setRecipeNameSearch] = useState("");
 
-  const [filterResults, setFilterResults] = useState(allRecipies);
-  const [searchResults, setSearchResults] = useState(allRecipies);
-
   const [areFiltersVisible, setAreFiltersVisible] = useState(false);
 
 
@@ -61,12 +58,7 @@ const SearchAndFilters = ({ ingredients, activeFilters, defaultSearchText, allRe
     const searched = allRecipies.filter(recipe =>
       recipe.title.toLowerCase().includes(recipeNameSearch.toLowerCase())
     );
-    setSearchResults(searched)
-
-    const intersection = filterResults.filter(recipe =>
-      searched.some(r => r.id === recipe.id)
-    );
-    setResults(intersection);
+    setResults(searched);
   }
 
   return (
@@ -94,8 +86,8 @@ const SearchAndFilters = ({ ingredients, activeFilters, defaultSearchText, allRe
         </div>
 
         {areFiltersVisible &&
-        <div className='absolute inset-x-0 z-40 bg-red-200'>
-          <p>Filters Will be available here</p>
+        <div className='absolute inset-x-0 z-40 bg-surface rounded-2xl border border-shell px-4 py-3 shadow-lg'>
+          <p className="text-[0.88rem] text-muted">Filtry będą dostępne tutaj.</p>
           <button onClick={() => setAreFiltersVisible(false)}>
             <IconX/>
           </button>

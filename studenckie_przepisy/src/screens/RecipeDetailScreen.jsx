@@ -275,7 +275,7 @@ export default function RecipeDetailScreen() {
           onClick={() => navigate(`/przepis/${recipe.id}/gotowanie`)}
           className="w-full py-4 bg-primary text-white rounded-full text-[1rem] font-semibold shadow-[0_4px_18px_rgba(192,57,43,0.35)] hover:bg-primary-h active:scale-[0.98] transition-all flex items-center justify-center gap-2"
         >
-          <IconPlay /> Zacznij Gotować
+          <IconPlay /> Zacznij gotować
         </button>
       </div>
 

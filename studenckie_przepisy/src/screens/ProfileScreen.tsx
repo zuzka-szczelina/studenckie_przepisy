@@ -8,9 +8,9 @@ import { Utensils, Bell, Lock } from 'lucide-react'
 import ProfileLogoutButton from "../components/profil/ProfileLogoutButton";
 
 const menu_items_props: ProfileMenuItemProps[] = [
-  {icon: Utensils, text: "Moje Diety"},
-  {icon: Lock, text: "Zmień Hasło"},
-  {icon: Bell, text: "Ustawienia Powiadomień"},
+  {icon: Utensils, text: "Moje diety"},
+  {icon: Lock, text: "Zmień hasło"},
+  {icon: Bell, text: "Ustawienia powiadomień"},
 ];
 
 
