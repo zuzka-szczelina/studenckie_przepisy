@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import ReactGA from "react-ga4";
 import AppLayout from "./layouts/AppLayout";
 import SpizarniaScreen from "./screens/SpizarniaScreen";
 import WynikiScreen from "./screens/WynikiScreen";
@@ -9,6 +11,8 @@ import useAuth from "./hooks/useAuth";
 import LoginScreen from "./screens/LoginScreen";
 import SavedRecipiesScreen from "./screens/SavedRecipiesScreen.jsx";
 import SettingsScreen from "./screens/SettingsScreen";
+import AnalyticsListener from "./components/AnalyticsListener";
+import { measurementId } from "./firebase";
 // import OdkrywajScreen from "./screens/OdkrywajScreen";  // TODO
 // import ZapisaneScreen from "./screens/ZapisaneScreen";  // TODO
 
@@ -20,8 +24,16 @@ function PrivateRoute({ children }) {
 
 
 export default function App() {
+  useEffect(() => {
+    ReactGA.initialize(measurementId);
+    ReactGA.send({
+      hitType: "pageview",
+      page: window.location.pathname + window.location.search,
+    });
+  }, []);
   return (
     <BrowserRouter>
+      <AnalyticsListener />
       <Routes>
         <Route path="/login" element={<LoginScreen />} />
         <Route element={<PrivateRoute><AppLayout /></PrivateRoute>}>

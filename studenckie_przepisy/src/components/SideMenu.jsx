@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import useAuth from '../hooks/useAuth'
 import {
   Bookmark,
   House,
@@ -64,6 +65,7 @@ function MenuSection({ label, items, pathname, onSelect }) {
 export default function SideMenu({ isOpen, onClose }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { logout } = useAuth();
 
   useEffect(() => {
     if (!isOpen) return undefined;
@@ -147,7 +149,7 @@ export default function SideMenu({ isOpen, onClose }) {
           <button
             type="button"
             className="flex h-11 items-center gap-3 rounded-full px-4 text-[0.95rem] font-semibold text-primary-h transition-colors hover:bg-primary-h/10"
-            onClick={onClose}
+            onClick={logout}
           >
             <LogOut className="h-5 w-5" strokeWidth={2} />
             <span>Wyloguj</span>
