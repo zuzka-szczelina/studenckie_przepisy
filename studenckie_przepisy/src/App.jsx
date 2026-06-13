@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import ReactGA from "react-ga4";
 import AppLayout from "./layouts/AppLayout";
@@ -14,7 +14,10 @@ import SettingsScreen from "./screens/SettingsScreen";
 import AnalyticsListener from "./components/AnalyticsListener";
 import { measurementId } from "./firebase";
 // import OdkrywajScreen from "./screens/OdkrywajScreen";  // TODO
-// import ZapisaneScreen from "./screens/ZapisaneScreen";  // TODO
+
+import useHotjar from "./hooks/useHotjar.js";
+import Hotjar from "@hotjar/browser";
+
 
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth();
@@ -31,6 +34,16 @@ export default function App() {
       page: window.location.pathname + window.location.search,
     });
   }, []);
+
+  useHotjar();
+  const { user } = useAuth();
+  useMemo(() => {
+    if (user?.uid) {
+      console.log(user?.uid);
+      Hotjar.identify(user.uid, {});
+    };
+  }, [user?.uid])
+console.log(Hotjar.isReady());
   return (
     <BrowserRouter>
       <AnalyticsListener />
