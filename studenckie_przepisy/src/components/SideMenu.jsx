@@ -126,7 +126,6 @@ export default function SideMenu({ isOpen, onClose }) {
               Jan Kowalski
             </h2>
             <p className="mt-1 text-[0.85rem] text-muted">@jankowalski</p>
-            <p className="mt-1 text-[0.82rem] text-muted">12 dodanych przepisów</p>
           </div>
 
           <div className="flex flex-col gap-8">
