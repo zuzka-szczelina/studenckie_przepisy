@@ -34,6 +34,17 @@ function getDifficultyLabel(minutes) {
   return "Czasochłonne";
 }
 
+function getNutritionItems(nutrition) {
+  if (!nutrition) return [];
+
+  return [
+    { label: "Kalorie", value: nutrition.kcal, unit: "kcal" },
+    { label: "Białko", value: nutrition.protein, unit: "g" },
+    { label: "Węglowodany", value: nutrition.carbs, unit: "g" },
+    { label: "Tłuszcz", value: nutrition.fat, unit: "g" },
+  ];
+}
+
 // ─── SUB-COMPONENTS ───────────────────────────────────────────────────────────
 
 function MetaPill({ icon, label, variant = "neutral" }) {
@@ -81,23 +92,47 @@ function IngredientRow({ name, amount, unit, hasSubstitute, onSubstitute }) {
   );
 }
 
+function NutritionSection({ nutrition }) {
+  const items = getNutritionItems(nutrition);
+  if (items.length === 0) return null;
+
+  return (
+    <section>
+      <div className="mb-3">
+        <h2 className="font-display text-[1.1rem] text-text">Wartości odżywcze</h2>
+        <p className="mt-0.5 text-[0.78rem] text-muted">Orientacyjnie na jedną porcję.</p>
+      </div>
+      <div className="grid grid-cols-2 gap-2">
+        {items.map((item) => (
+          <div key={item.label} className="rounded-2xl bg-surface px-4 py-3">
+            <p className="text-[0.72rem] font-semibold uppercase tracking-wider text-muted">
+              {item.label}
+            </p>
+            <p className="mt-1 text-[1.1rem] font-bold text-text">
+              {item.value}
+              <span className="ml-1 text-[0.78rem] font-semibold text-muted">{item.unit}</span>
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 // ─── MODAL ZAMIENNIKÓW ────────────────────────────────────────────────────────
 
 function SubstituteModal({ ingredientName, onClose }) {
   const substitutes = SUBSTITUTES[ingredientName] ?? [];
 
   return (
-    // Backdrop
     <div
-      className="fixed inset-0 z-20 bg-black/40 flex items-end"
+      className="fixed inset-y-0 left-1/2 z-20 flex w-full max-w-[390px] -translate-x-1/2 items-end bg-black/40"
       onClick={onClose}
     >
-      {/* Panel — stopujemy propagację, żeby klik w środku nie zamykał */}
       <div
-        className="w-full bg-bg rounded-t-3xl px-5 pt-5 pb-[max(24px,env(safe-area-inset-bottom))] shadow-xl"
+        className="w-full rounded-t-3xl bg-bg px-5 pb-[max(24px,env(safe-area-inset-bottom))] pt-5 shadow-xl"
         onClick={e => e.stopPropagation()}
       >
-        {/* Nagłówek */}
         <div className="flex items-start justify-between mb-4">
           <div>
             <p className="text-[0.72rem] text-muted font-medium uppercase tracking-wide mb-0.5">
@@ -116,7 +151,6 @@ function SubstituteModal({ ingredientName, onClose }) {
           </button>
         </div>
 
-        {/* Lista */}
         {substitutes.length === 0 ? (
           <p className="text-sm text-muted py-4 text-center">
             Brak zamienników w bazie.
@@ -212,6 +246,8 @@ export default function RecipeDetailScreen() {
             <MetaPill icon={<IconLeaf />}             label={getDifficultyLabel(recipe.timeMinutes)} variant="green" />
           </div>
         </section>
+
+        <NutritionSection nutrition={recipe.nutrition} />
 
         <section>
           <div className="flex items-center justify-between mb-3">

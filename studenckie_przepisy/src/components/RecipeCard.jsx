@@ -1,5 +1,5 @@
 import useSavedRecipies from "../hooks/useSavedRecipies";
-import { IconBookmark, IconBookmarkFilled } from "../icons";
+import { IconBookmark, IconBookmarkFilled, IconClock, IconCoin } from "../icons";
 import { getIngredientMatch } from "../mockData";
 import MatchBadge from "./MatchBadge";
 
@@ -13,10 +13,11 @@ function formatTime(minutes) {
 }
 
 
-function RecipeCard({ recipe, pantryIngredients, navigate }) {
+function RecipeCard({ recipe, pantryIngredients, navigate, onSavedChange }) {
   const match = getIngredientMatch(recipe, pantryIngredients);
   const isIngredientsFilterUsed = pantryIngredients.length > 0;
-  const { isSavedRecipe } = useSavedRecipies();
+  const { isSavedRecipe, toggleIsSavedRecipe } = useSavedRecipies();
+  const saved = isSavedRecipe(recipe.id);
 
   return (
     <article
@@ -34,14 +35,13 @@ function RecipeCard({ recipe, pantryIngredients, navigate }) {
         <button
           onClick={e => {
             e.stopPropagation();
-            console.log("Ulubione:", recipe.id);
+            toggleIsSavedRecipe(recipe.id);
+            onSavedChange?.(recipe.id);
           }}
-          aria-label="Dodaj do ulubionych"
-          className={`absolute top-1.5 right-1.5 w-6 h-6 bg-white/80 rounded-full flex items-center justify-center text-[0.7rem] hover:bg-white transition-colors ${isSavedRecipe(recipe.id) ? "text-primary" : "text-muted"}`}
+          aria-label={saved ? "Usuń z ulubionych" : "Dodaj do ulubionych"}
+          className={`absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-white/80 text-[0.7rem] transition-colors hover:bg-white ${saved ? "text-primary" : "text-muted"}`}
         >
-          {isSavedRecipe(recipe.id) ? 
-            <IconBookmarkFilled className="w-4 h-4"/> : 
-            <IconBookmark className="w-4 h-4"/>}
+          {saved ? <IconBookmarkFilled className="h-4 w-4" /> : <IconBookmark className="h-4 w-4" />}
         </button>
       </div>
 
@@ -49,13 +49,18 @@ function RecipeCard({ recipe, pantryIngredients, navigate }) {
         <h3 className="font-display text-[0.95rem] text-text leading-tight line-clamp-2">
           {recipe.title}
         </h3>
-        <div className="flex items-center gap-3 text-[0.75rem] text-muted">
-          <span className="flex items-center gap-1">
-            <span>💰</span> {formatPrice(recipe.priceEstimate)}
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.75rem] text-muted">
+          <span className="flex items-center gap-1 whitespace-nowrap">
+            <IconCoin /> {formatPrice(recipe.priceEstimate)}
           </span>
-          <span className="flex items-center gap-1">
-            <span>⏱</span> {formatTime(recipe.timeMinutes)}
+          <span className="flex items-center gap-1 whitespace-nowrap">
+            <IconClock size={14} /> {formatTime(recipe.timeMinutes)}
           </span>
+          {recipe.nutrition && (
+            <span className="rounded-full bg-accent/15 px-2 py-0.5 text-[0.7rem] font-semibold text-accent-text whitespace-nowrap">
+              {recipe.nutrition.kcal} kcal
+            </span>
+          )}
         </div>
         <MatchBadge {...match} isIngredientsFilterUsed={isIngredientsFilterUsed} />
       </div>

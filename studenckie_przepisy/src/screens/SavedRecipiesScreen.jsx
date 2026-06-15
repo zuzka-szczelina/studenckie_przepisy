@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { RECIPES } from "../mockData";
 import useSavedRecipies from "../hooks/useSavedRecipies";
@@ -20,10 +20,12 @@ export default function SavedRecipiesScreen() {
   const ingredients = [];
   const activeTime  = null;
   const activeCost  = null;
-//   todo: filtering the ingredients, time and cost 
 
 
-  const allRecipies = RECIPES.filter(recipe => savedRecipies.includes(recipe.id))
+  const allRecipies = useMemo(
+    () => RECIPES.filter(recipe => savedRecipies.includes(recipe.id)),
+    [savedRecipies]
+  );
   const [results, setResults] = useState(allRecipies);
   const totalPages = Math.ceil(results.length / PAGE_SIZE);
   const pageItems  = results.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
@@ -36,6 +38,10 @@ export default function SavedRecipiesScreen() {
 
   const handlePrev = () => { setPage(p => Math.max(1, p - 1)); window.scrollTo?.(0, 0); };
   const handleNext = () => { setPage(p => Math.min(totalPages, p + 1)); window.scrollTo?.(0, 0); };
+  const handleSavedChange = (recipeId) => {
+    setResults(prev => prev.filter(recipe => recipe.id !== recipeId));
+    setPage(1);
+  };
 
   return (
     <div className="flex flex-col gap-5 px-5 pt-3 pb-5">
@@ -64,6 +70,7 @@ export default function SavedRecipiesScreen() {
               recipe={recipe}
               pantryIngredients={ingredients}
               navigate={navigate}
+              onSavedChange={handleSavedChange}
             />
           ))}
           <Pagination

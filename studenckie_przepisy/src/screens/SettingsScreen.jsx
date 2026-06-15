@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Bell, Languages, Moon, ShieldCheck } from "lucide-react";
+import { Bell, BookmarkX, RotateCcw } from "lucide-react";
+import useLocalStorageState from "use-local-storage-state";
 
 function Toggle({ checked, onChange, label }) {
   return (
@@ -24,7 +25,7 @@ function Toggle({ checked, onChange, label }) {
   );
 }
 
-function SettingsRow({ icon: Icon, title, description, checked, onChange }) {
+function SettingsRow({ icon: Icon, title, description, children }) {
   return (
     <div className="flex items-center gap-3 py-3.5 border-b border-shell last:border-b-0">
       <div className="w-9 h-9 bg-surface2 rounded-full flex items-center justify-center flex-shrink-0">
@@ -36,16 +37,46 @@ function SettingsRow({ icon: Icon, title, description, checked, onChange }) {
           {description}
         </p>
       </div>
-      <Toggle checked={checked} onChange={onChange} label={title} />
+      {children}
     </div>
   );
 }
 
+function ActionButton({ children, onClick, variant = "neutral" }) {
+  const styles = {
+    neutral: "bg-surface2 text-text hover:bg-shell",
+    danger: "bg-primary-h/10 text-primary-h hover:bg-primary-h/15",
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`shrink-0 rounded-full px-3 py-2 text-[0.78rem] font-semibold transition-colors ${styles[variant]}`}
+    >
+      {children}
+    </button>
+  );
+}
+
 export default function SettingsScreen() {
-  const [notifications, setNotifications] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
-  const [simpleLanguage, setSimpleLanguage] = useState(true);
-  const [privacyHints, setPrivacyHints] = useState(true);
+  const [notifications, setNotifications] = useLocalStorageState("settings.notifications", {
+    defaultValue: true,
+  });
+  const [savedRecipies, setSavedRecipies] = useLocalStorageState("savedRecipies", {
+    defaultValue: [],
+  });
+  const [message, setMessage] = useState(null);
+
+  const clearSavedRecipes = () => {
+    setSavedRecipies([]);
+    setMessage("Lista zapisanych przepisów została wyczyszczona.");
+  };
+
+  const resetSettings = () => {
+    setNotifications(true);
+    setMessage("Ustawienia aplikacji zostały przywrócone.");
+  };
 
   return (
     <div className="flex flex-col gap-6 px-5 pt-6 pb-5">
@@ -54,39 +85,42 @@ export default function SettingsScreen() {
           Ustawienia
         </h1>
         <p className="mt-1 text-[0.88rem] leading-relaxed text-muted">
-          Dostosuj aplikację do swojego gotowania.
+          Zarządzaj preferencjami i danymi zapisanymi w tej przeglądarce.
         </p>
       </section>
+
+      {message && (
+        <div className="rounded-2xl border border-accent/30 bg-accent/15 px-4 py-3 text-[0.84rem] leading-relaxed text-accent-text">
+          {message}
+        </div>
+      )}
 
       <section className="bg-surface rounded-2xl px-4 py-1 shadow-sm">
         <SettingsRow
           icon={Bell}
           title="Powiadomienia"
-          description="Przypomnienia o zapisanych przepisach i składnikach."
-          checked={notifications}
-          onChange={setNotifications}
-        />
+          description={notifications ? "Powiadomienia w aplikacji są włączone." : "Powiadomienia w aplikacji są wyłączone."}
+        >
+          <Toggle checked={notifications} onChange={setNotifications} label="Powiadomienia" />
+        </SettingsRow>
         <SettingsRow
-          icon={Moon}
-          title="Tryb ciemny"
-          description="Przygotowane miejsce na ciemniejszy motyw aplikacji."
-          checked={darkMode}
-          onChange={setDarkMode}
-        />
+          icon={BookmarkX}
+          title="Zapisane przepisy"
+          description={`Aktualnie zapisane: ${savedRecipies.length}.`}
+        >
+          <ActionButton onClick={clearSavedRecipes} variant="danger">
+            Wyczyść
+          </ActionButton>
+        </SettingsRow>
         <SettingsRow
-          icon={Languages}
-          title="Prostszy język"
-          description="Krótsze komunikaty i mniej technicznych określeń."
-          checked={simpleLanguage}
-          onChange={setSimpleLanguage}
-        />
-        <SettingsRow
-          icon={ShieldCheck}
-          title="Wskazówki prywatności"
-          description="Pokazuj podpowiedzi przy funkcjach konta."
-          checked={privacyHints}
-          onChange={setPrivacyHints}
-        />
+          icon={RotateCcw}
+          title="Reset ustawień"
+          description="Przywróć domyślne preferencje aplikacji."
+        >
+          <ActionButton onClick={resetSettings}>
+            Reset
+          </ActionButton>
+        </SettingsRow>
       </section>
     </div>
   );
