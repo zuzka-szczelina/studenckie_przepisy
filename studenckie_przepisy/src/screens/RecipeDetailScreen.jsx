@@ -87,17 +87,14 @@ function SubstituteModal({ ingredientName, onClose }) {
   const substitutes = SUBSTITUTES[ingredientName] ?? [];
 
   return (
-    // Backdrop
     <div
-      className="fixed inset-0 z-20 bg-black/40 flex items-end"
+      className="fixed inset-y-0 left-1/2 z-20 flex w-full max-w-[390px] -translate-x-1/2 items-end bg-black/40"
       onClick={onClose}
     >
-      {/* Panel — stopujemy propagację, żeby klik w środku nie zamykał */}
       <div
-        className="w-full bg-bg rounded-t-3xl px-5 pt-5 pb-[max(24px,env(safe-area-inset-bottom))] shadow-xl"
+        className="w-full rounded-t-3xl bg-bg px-5 pb-[max(24px,env(safe-area-inset-bottom))] pt-5 shadow-xl"
         onClick={e => e.stopPropagation()}
       >
-        {/* Nagłówek */}
         <div className="flex items-start justify-between mb-4">
           <div>
             <p className="text-[0.72rem] text-muted font-medium uppercase tracking-wide mb-0.5">
@@ -116,7 +113,6 @@ function SubstituteModal({ ingredientName, onClose }) {
           </button>
         </div>
 
-        {/* Lista */}
         {substitutes.length === 0 ? (
           <p className="text-sm text-muted py-4 text-center">
             Brak zamienników w bazie.

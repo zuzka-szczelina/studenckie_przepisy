@@ -20,7 +20,6 @@ export default function SavedRecipiesScreen() {
   const ingredients = [];
   const activeTime  = null;
   const activeCost  = null;
-//   todo: filtering the ingredients, time and cost 
 
 
   const allRecipies = useMemo(
