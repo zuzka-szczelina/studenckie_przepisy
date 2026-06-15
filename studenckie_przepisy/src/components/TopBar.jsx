@@ -1,6 +1,9 @@
 import { IconMenu, IconSearch } from "../icons";
+import { useNavigate } from "react-router-dom";
 
 export default function TopBar({ onMenuClick }) {
+  const navigate = useNavigate();
+
   return (
     <header className="sticky top-0 z-10 flex items-center justify-between px-5 py-3.5 bg-bg">
       <button
@@ -16,6 +19,8 @@ export default function TopBar({ onMenuClick }) {
       </span>
 
       <button
+        type="button"
+        onClick={() => navigate("/wyniki")}
         className="flex items-center justify-center w-10 h-10 rounded-[10px] text-text hover:bg-surface active:bg-surface2 transition-colors"
         aria-label="Szukaj"
       >
