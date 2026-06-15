@@ -7,6 +7,7 @@ import {
 } from "firebase/auth";
 import { auth, googleProvider } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import PhoneShell from "../components/PhoneShell";
 
 export default function LoginScreen() {
   const navigate  = useNavigate();
@@ -44,76 +45,71 @@ export default function LoginScreen() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-svh bg-bg px-6">
-      <div className="w-full max-w-[340px] flex flex-col gap-5">
+    <PhoneShell>
+      <main className="flex flex-1 flex-col justify-center px-5 py-8">
+        <div className="flex w-full flex-col gap-5">
 
-        {/* Logo / tytuł */}
-        <div className="text-center mb-2">
-          <h1 className="font-display text-[2rem] text-primary">Kuchnia Studenta</h1>
-          <p className="text-sm text-muted mt-1">
-            {isRegister ? "Utwórz konto" : "Zaloguj się, by gotować"}
-          </p>
-        </div>
+          <div className="mb-2 text-center">
+            <h1 className="font-display text-[2rem] text-primary">Kuchnia Studenta</h1>
+            <p className="mt-1 text-sm text-muted">
+              {isRegister ? "Utwórz konto" : "Zaloguj się, by gotować"}
+            </p>
+          </div>
 
-        {/* Pola */}
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          className="w-full bg-surface border border-shell rounded-2xl px-4 py-3.5 text-sm text-text placeholder:text-muted outline-none focus:border-primary transition-colors"
-        />
-        <input
-          type="password"
-          placeholder="Hasło"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          onKeyDown={e => e.key === "Enter" && handleEmailAuth()}
-          className="w-full bg-surface border border-shell rounded-2xl px-4 py-3.5 text-sm text-text placeholder:text-muted outline-none focus:border-primary transition-colors"
-        />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            className="w-full rounded-2xl border border-shell bg-surface px-4 py-3.5 text-sm text-text outline-none transition-colors placeholder:text-muted focus:border-primary"
+          />
+          <input
+            type="password"
+            placeholder="Hasło"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            onKeyDown={e => e.key === "Enter" && handleEmailAuth()}
+            className="w-full rounded-2xl border border-shell bg-surface px-4 py-3.5 text-sm text-text outline-none transition-colors placeholder:text-muted focus:border-primary"
+          />
 
-        {/* Błąd */}
-        {error && (
-          <p className="text-[0.8rem] text-primary text-center -mt-2">{error}</p>
-        )}
+          {error && (
+            <p className="-mt-2 text-center text-[0.8rem] text-primary">{error}</p>
+          )}
 
-        {/* Przycisk główny */}
-        <button
-          onClick={handleEmailAuth}
-          disabled={loading}
-          className="w-full py-3.5 bg-primary text-white rounded-full font-semibold text-sm shadow-[0_4px_18px_rgba(192,57,43,0.3)] hover:bg-primary-h disabled:opacity-60 transition-all"
-        >
-          {loading ? "Ładowanie..." : isRegister ? "Zarejestruj się" : "Zaloguj się"}
-        </button>
-
-        {/* Separator */}
-        <div className="flex items-center gap-3">
-          <div className="flex-1 h-px bg-shell" />
-          <span className="text-xs text-muted">lub</span>
-          <div className="flex-1 h-px bg-shell" />
-        </div>
-
-        {/* Google */}
-        <button
-          onClick={handleGoogle}
-          className="w-full py-3.5 bg-surface border border-shell rounded-full font-semibold text-sm text-text hover:bg-surface2 transition-colors flex items-center justify-center gap-2"
-        >
-          <GoogleIcon /> Kontynuuj z Google
-        </button>
-
-        {/* Przełącznik rejestracja / logowanie */}
-        <p className="text-center text-sm text-muted">
-          {isRegister ? "Masz już konto?" : "Nie masz konta?"}{" "}
           <button
-            onClick={() => { setIsRegister(v => !v); setError(null); }}
-            className="text-primary font-semibold"
+            onClick={handleEmailAuth}
+            disabled={loading}
+            className="w-full rounded-full bg-primary py-3.5 text-sm font-semibold text-white shadow-[0_4px_18px_rgba(192,57,43,0.3)] transition-all hover:bg-primary-h disabled:opacity-60"
           >
-            {isRegister ? "Zaloguj się" : "Zarejestruj się"}
+            {loading ? "Ładowanie..." : isRegister ? "Zarejestruj się" : "Zaloguj się"}
           </button>
-        </p>
 
-      </div>
-    </div>
+          <div className="flex items-center gap-3">
+            <div className="h-px flex-1 bg-shell" />
+            <span className="text-xs text-muted">lub</span>
+            <div className="h-px flex-1 bg-shell" />
+          </div>
+
+          <button
+            onClick={handleGoogle}
+            className="flex w-full items-center justify-center gap-2 rounded-full border border-shell bg-surface py-3.5 text-sm font-semibold text-text transition-colors hover:bg-surface2"
+          >
+            <GoogleIcon /> Kontynuuj z Google
+          </button>
+
+          <p className="text-center text-sm text-muted">
+            {isRegister ? "Masz już konto?" : "Nie masz konta?"}{" "}
+            <button
+              onClick={() => { setIsRegister(v => !v); setError(null); }}
+              className="font-semibold text-primary"
+            >
+              {isRegister ? "Zaloguj się" : "Zarejestruj się"}
+            </button>
+          </p>
+
+        </div>
+      </main>
+    </PhoneShell>
   );
 }
 

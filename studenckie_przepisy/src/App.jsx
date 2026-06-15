@@ -1,20 +1,19 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import ReactGA from "react-ga4";
 import AppLayout from "./layouts/AppLayout";
-import SpizarniaScreen from "./screens/SpizarniaScreen";
-import WynikiScreen from "./screens/WynikiScreen";
-import ProfileScreen from "./screens/ProfileScreen.tsx";
-import RecipeDetailScreen from "./screens/RecipeDetailScreen";
-import CookingModeScreen from "./screens/CookingModeScreen";
 import useAuth from "./hooks/useAuth";
-import LoginScreen from "./screens/LoginScreen";
-import SavedRecipiesScreen from "./screens/SavedRecipiesScreen.jsx";
-import SettingsScreen from "./screens/SettingsScreen";
+import LoginPage from "./pages/LoginPage";
+import SpizarniaPage from "./pages/SpizarniaPage";
+import WynikiPage from "./pages/WynikiPage";
+import ProfilePage from "./pages/ProfilePage";
+import RecipeDetailPage from "./pages/RecipeDetailPage";
+import CookingModePage from "./pages/CookingModePage";
+import SavedRecipesPage from "./pages/SavedRecipesPage";
+import SettingsPage from "./pages/SettingsPage";
+import NotFoundPage from "./pages/NotFoundPage";
 import AnalyticsListener from "./components/AnalyticsListener";
 import { measurementId } from "./firebase";
-// import OdkrywajScreen from "./screens/OdkrywajScreen";  // TODO
-
 import useHotjar from "./hooks/useHotjar.js";
 import Hotjar from "@hotjar/browser";
 
@@ -28,6 +27,8 @@ function PrivateRoute({ children }) {
 
 export default function App() {
   useEffect(() => {
+    if (!measurementId) return;
+
     ReactGA.initialize(measurementId);
     ReactGA.send({
       hitType: "pageview",
@@ -37,42 +38,32 @@ export default function App() {
 
   useHotjar();
   const { user } = useAuth();
-  useMemo(() => {
-    if (user?.uid) {
-      console.log(user?.uid);
+
+  useEffect(() => {
+    if (user?.uid && Hotjar.isReady()) {
       Hotjar.identify(user.uid, {});
-    };
-  }, [user?.uid])
-console.log(Hotjar.isReady());
+    }
+  }, [user?.uid]);
+
   return (
     <BrowserRouter>
       <AnalyticsListener />
       <Routes>
-        <Route path="/login" element={<LoginScreen />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/przepis/:id/gotowanie"
+          element={<PrivateRoute><CookingModePage /></PrivateRoute>}
+        />
         <Route element={<PrivateRoute><AppLayout /></PrivateRoute>}>
           <Route path="/"           element={<Navigate to="/spizarnia" replace />} />
-          <Route path="/spizarnia"  element={<SpizarniaScreen />} />
-          <Route path="/wyniki"     element={<WynikiScreen />} />
-          <Route path="/profil"   element={<ProfileScreen />}   />
-          <Route path="/przepis/:id" element={<RecipeDetailScreen />} />  
-          {/* <Route
-            path="/zapisane"
-            element={
-              <PlaceholderScreen
-                title="Zapisane"
-                description="Tutaj pojawią się przepisy, które dodasz do zapisanych."
-              />
-            }
-          /> */}
-          <Route path="/zapisane" element={<SavedRecipiesScreen />} />
-          <Route
-            path="/ustawienia"
-            element={<SettingsScreen />}
-          />
-          {/* <Route path="/odkrywaj" element={<OdkrywajScreen />} /> */}
-          {/* <Route path="/zapisane" element={<ZapisaneScreen />} /> */}
+          <Route path="/spizarnia"  element={<SpizarniaPage />} />
+          <Route path="/wyniki"     element={<WynikiPage />} />
+          <Route path="/profil"     element={<ProfilePage />} />
+          <Route path="/przepis/:id" element={<RecipeDetailPage />} />
+          <Route path="/zapisane" element={<SavedRecipesPage />} />
+          <Route path="/ustawienia" element={<SettingsPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
-        <Route path="/przepis/:id/gotowanie" element={<CookingModeScreen />} />
       </Routes>
     </BrowserRouter>
   );

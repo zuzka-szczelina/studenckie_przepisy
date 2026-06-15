@@ -32,8 +32,8 @@ function MenuItem({ icon: Icon, label, path, active, onSelect }) {
       className={[
         "flex h-11 w-full items-center gap-3 rounded-full px-4 text-left text-[0.95rem] font-semibold transition-colors",
         active
-          ? "bg-[#ead8be] text-[#6f5a49]"
-          : "text-[#5f5048] hover:bg-[#f2e6d8]",
+          ? "bg-surface2 text-text"
+          : "text-muted hover:bg-surface",
       ].join(" ")}
     >
       <Icon className="h-5 w-5 shrink-0" strokeWidth={2} />
@@ -100,11 +100,11 @@ export default function SideMenu({ isOpen, onClose }) {
         role="dialog"
         aria-modal="true"
         aria-label="Menu boczne"
-        className="absolute inset-y-0 left-0 flex w-[308px] max-w-[82%] flex-col bg-[#fff8ef] shadow-[8px_0_28px_rgba(72,58,45,0.18)]"
+        className="absolute inset-y-0 left-0 flex w-[308px] max-w-[82%] flex-col bg-bg shadow-[8px_0_28px_rgba(72,58,45,0.18)]"
       >
         <button
           type="button"
-          className="absolute right-4 top-7 flex h-10 w-10 items-center justify-center rounded-[10px] text-[#5d4b40] transition-colors hover:bg-[#f2e6d8]"
+          className="absolute right-4 top-7 flex h-10 w-10 items-center justify-center rounded-[10px] text-text transition-colors hover:bg-surface"
           aria-label="Zamknij menu"
           onClick={onClose}
         >
@@ -119,7 +119,7 @@ export default function SideMenu({ isOpen, onClose }) {
                 alt="Jan Kowalski"
                 className="h-16 w-16 rounded-full object-cover"
               />
-              <span className="absolute bottom-1 right-0 h-3.5 w-3.5 rounded-full bg-[#8a3f22] ring-2 ring-[#fff8ef]" />
+              <span className="absolute bottom-1 right-0 h-3.5 w-3.5 rounded-full bg-primary ring-2 ring-bg" />
             </div>
 
             <h2 className="text-[1.45rem] font-bold leading-tight text-text">

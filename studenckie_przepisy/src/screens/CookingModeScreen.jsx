@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { RECIPES } from "../mockData";
 import { IconArrowLeft } from "../icons";
+import PhoneShell from "../components/PhoneShell";
 
 // ─── ICON HELPERS (inline, żeby nie dokładać do icons.jsx) ───────────────────
 
@@ -84,15 +85,15 @@ export default function CookingModeScreen() {
 
   if (!recipe) {
     return (
-      <div className="flex justify-center items-start min-h-svh bg-shell font-body">
-        <div className="flex w-full max-w-[390px] h-svh bg-bg items-center justify-center flex-col gap-4 px-8 text-center">
+      <PhoneShell>
+        <div className="flex flex-1 flex-col items-center justify-center gap-4 px-8 text-center">
           <span className="text-5xl">:(</span>
           <h2 className="font-display text-xl text-text">Przepis nie istnieje</h2>
-          <button onClick={() => navigate(-1)} className="px-6 py-3 bg-primary text-white rounded-full text-sm font-semibold">
+          <button onClick={() => navigate(-1)} className="rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white">
             Wróć
           </button>
         </div>
-      </div>
+      </PhoneShell>
     );
   }
 
@@ -113,9 +114,8 @@ export default function CookingModeScreen() {
   };
 
   return (
-    <div className="flex justify-center items-start min-h-svh bg-shell font-body">
-      <div className="relative flex flex-col w-full max-w-[390px] h-svh bg-bg overflow-hidden">
-        <header className="shrink-0 px-5 pt-3.5 pb-3 bg-bg border-b border-surface2">
+    <PhoneShell>
+        <header className="shrink-0 border-b border-surface2 bg-bg px-5 pb-3 pt-3.5">
           <div className="flex items-center justify-between gap-3">
             <button
               onClick={exitToRecipe}
@@ -209,7 +209,6 @@ export default function CookingModeScreen() {
             </footer>
           </>
         )}
-      </div>
-    </div>
+    </PhoneShell>
   );
 }

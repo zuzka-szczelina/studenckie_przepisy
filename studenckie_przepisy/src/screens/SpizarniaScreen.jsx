@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { IconPlus, IconX, IconFilter, IconCoin, IconLeaf } from "../icons";
+import { IconPlus, IconFilter, IconCoin, IconLeaf } from "../icons";
+import IngredientTag from "../components/IngredientTag";
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 
@@ -9,23 +10,6 @@ const COST_FILTERS = [
   { id: "cheap",  label: "Tanie",   icon: <IconCoin /> },
   { id: "medium", label: "Średnie", icon: <IconLeaf /> },
 ];
-
-// ─── SUB-COMPONENTS ───────────────────────────────────────────────────────────
-
-export function IngredientTag({ label, onRemove }) {
-  return (
-    <span className="inline-flex items-center gap-1.5 bg-accent text-accent-text text-[0.8rem] font-semibold pl-3 pr-2 py-1 rounded-full select-none">
-      {label}
-      <button
-        onClick={onRemove}
-        aria-label={`Usuń ${label}`}
-        className="flex items-center justify-center w-[18px] h-[18px] rounded-full bg-black/10 hover:bg-black/20 transition-colors"
-      >
-        <IconX />
-      </button>
-    </span>
-  );
-}
 
 function FilterPill({ label, active, onClick }) {
   return (
