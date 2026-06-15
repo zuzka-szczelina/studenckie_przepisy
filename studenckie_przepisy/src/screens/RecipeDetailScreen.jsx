@@ -34,6 +34,17 @@ function getDifficultyLabel(minutes) {
   return "Czasochłonne";
 }
 
+function getNutritionItems(nutrition) {
+  if (!nutrition) return [];
+
+  return [
+    { label: "Kalorie", value: nutrition.kcal, unit: "kcal" },
+    { label: "Białko", value: nutrition.protein, unit: "g" },
+    { label: "Węglowodany", value: nutrition.carbs, unit: "g" },
+    { label: "Tłuszcz", value: nutrition.fat, unit: "g" },
+  ];
+}
+
 // ─── SUB-COMPONENTS ───────────────────────────────────────────────────────────
 
 function MetaPill({ icon, label, variant = "neutral" }) {
@@ -78,6 +89,33 @@ function IngredientRow({ name, amount, unit, hasSubstitute, onSubstitute }) {
         )}
       </div>
     </div>
+  );
+}
+
+function NutritionSection({ nutrition }) {
+  const items = getNutritionItems(nutrition);
+  if (items.length === 0) return null;
+
+  return (
+    <section>
+      <div className="mb-3">
+        <h2 className="font-display text-[1.1rem] text-text">Wartości odżywcze</h2>
+        <p className="mt-0.5 text-[0.78rem] text-muted">Orientacyjnie na jedną porcję.</p>
+      </div>
+      <div className="grid grid-cols-2 gap-2">
+        {items.map((item) => (
+          <div key={item.label} className="rounded-2xl bg-surface px-4 py-3">
+            <p className="text-[0.72rem] font-semibold uppercase tracking-wider text-muted">
+              {item.label}
+            </p>
+            <p className="mt-1 text-[1.1rem] font-bold text-text">
+              {item.value}
+              <span className="ml-1 text-[0.78rem] font-semibold text-muted">{item.unit}</span>
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -208,6 +246,8 @@ export default function RecipeDetailScreen() {
             <MetaPill icon={<IconLeaf />}             label={getDifficultyLabel(recipe.timeMinutes)} variant="green" />
           </div>
         </section>
+
+        <NutritionSection nutrition={recipe.nutrition} />
 
         <section>
           <div className="flex items-center justify-between mb-3">

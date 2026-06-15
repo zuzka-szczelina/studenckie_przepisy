@@ -18,6 +18,7 @@ export const RECIPES = [
     image: spaghettiNapoli,
     priceEstimate: 8,
     timeMinutes: 15,
+    nutrition: { kcal: 520, protein: 16, carbs: 82, fat: 14 },
     ingredients: ["makaron", "pomidory", "czosnek", "oliwa", "cebula"],
     tags: ["makaron", "włoskie", "tanie"],
     ingredientsDetailed: [
@@ -41,6 +42,7 @@ export const RECIPES = [
     image: tostyZAwokado,
     priceEstimate: 10,
     timeMinutes: 10,
+    nutrition: { kcal: 430, protein: 18, carbs: 32, fat: 27 },
     ingredients: ["chleb", "awokado", "jajka", "sól", "pieprz", "cebula"],
     tags: ["śniadanie", "wegetariańskie"],
     ingredientsDetailed: [
@@ -63,6 +65,7 @@ export const RECIPES = [
     image: kurczakZRyzem,
     priceEstimate: 14,
     timeMinutes: 25,
+    nutrition: { kcal: 560, protein: 42, carbs: 62, fat: 14 },
     ingredients: ["kurczak", "ryż", "cebula", "czosnek", "papryka"],
     tags: ["obiad", "białko"],
     ingredientsDetailed: [
@@ -88,6 +91,7 @@ export const RECIPES = [
     image: salatkaStudencka,
     priceEstimate: 6,
     timeMinutes: 5,
+    nutrition: { kcal: 190, protein: 4, carbs: 14, fat: 14 },
     ingredients: ["sałata", "pomidory", "ogórek", "oliwa", "cebula"],
     tags: ["sałatka", "wegetariańskie", "szybkie"],
     ingredientsDetailed: [
@@ -111,6 +115,7 @@ export const RECIPES = [
     image: jajecznicaZCebula,
     priceEstimate: 5,
     timeMinutes: 8,
+    nutrition: { kcal: 320, protein: 20, carbs: 4, fat: 25 },
     ingredients: ["jajka", "cebula", "masło", "sól", "pieprz"],
     tags: ["śniadanie", "tanie", "szybkie"],
     ingredientsDetailed: [
@@ -132,6 +137,7 @@ export const RECIPES = [
     image: zupaPomidorowa,
     priceEstimate: 9,
     timeMinutes: 30,
+    nutrition: { kcal: 310, protein: 8, carbs: 52, fat: 8 },
     ingredients: ["pomidory", "ryż", "cebula", "czosnek", "bulion"],
     tags: ["zupa", "obiad"],
     ingredientsDetailed: [
@@ -156,6 +162,7 @@ export const RECIPES = [
     image: wrapZKurczakiem,
     priceEstimate: 13,
     timeMinutes: 20,
+    nutrition: { kcal: 520, protein: 36, carbs: 48, fat: 18 },
     ingredients: ["kurczak", "tortilla", "sałata", "pomidory", "jogurt"],
     tags: ["obiad", "białko"],
     ingredientsDetailed: [
@@ -179,6 +186,7 @@ export const RECIPES = [
     image: ryzZWarzywami,
     priceEstimate: 7,
     timeMinutes: 20,
+    nutrition: { kcal: 410, protein: 9, carbs: 68, fat: 12 },
     ingredients: ["ryż", "papryka", "cebula", "marchew", "sos sojowy"],
     tags: ["obiad", "wegetariańskie", "tanie"],
     ingredientsDetailed: [

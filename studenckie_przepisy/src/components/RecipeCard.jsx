@@ -49,13 +49,18 @@ function RecipeCard({ recipe, pantryIngredients, navigate, onSavedChange }) {
         <h3 className="font-display text-[0.95rem] text-text leading-tight line-clamp-2">
           {recipe.title}
         </h3>
-        <div className="flex items-center gap-3 text-[0.75rem] text-muted">
-          <span className="flex items-center gap-1">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.75rem] text-muted">
+          <span className="flex items-center gap-1 whitespace-nowrap">
             <IconCoin /> {formatPrice(recipe.priceEstimate)}
           </span>
-          <span className="flex items-center gap-1">
+          <span className="flex items-center gap-1 whitespace-nowrap">
             <IconClock size={14} /> {formatTime(recipe.timeMinutes)}
           </span>
+          {recipe.nutrition && (
+            <span className="rounded-full bg-accent/15 px-2 py-0.5 text-[0.7rem] font-semibold text-accent-text whitespace-nowrap">
+              {recipe.nutrition.kcal} kcal
+            </span>
+          )}
         </div>
         <MatchBadge {...match} isIngredientsFilterUsed={isIngredientsFilterUsed} />
       </div>
